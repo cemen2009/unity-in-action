@@ -4,16 +4,41 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    [SerializeField] private float sensetiveY = 1f;
-    [SerializeField] private float sensetiveX = 2f;
-    private float mouseX;
-    private float mouseY;
+    private enum RotationAxes
+    {
+        MouseXAndY = 0,
+        MouseX = 1,
+        MouseY = 2
+    }
+    [SerializeField] private RotationAxes axes;
+    [SerializeField] private float sensetiveHorizontal = 9.0f;
+    [SerializeField] private float sensetiveVertical = 5.0f;
+    private Vector3 cameraRotation = Vector3.zero;
+
+    private float minVerticalAngel = -35.0f;
+    private float maxVerticalAngel = 35.0f;
+
+    //private float rotationX = 0f;
 
     private void Update()
     {
-        mouseX = Input.GetAxis("Mouse X") * sensetiveX * Time.deltaTime;
-        mouseY = Input.GetAxis("Mouse Y") * sensetiveY * Time.deltaTime;
+        if (axes == RotationAxes.MouseX)
+        {
+            // vertical way
+            transform.Rotate(0f, Input.GetAxis("Mouse X") * sensetiveHorizontal, 0f);
+        }
+        else if (axes == RotationAxes.MouseY)
+        {
+            // horizontal way
+            cameraRotation.x -= Input.GetAxis("Mouse Y") * sensetiveVertical;
+            cameraRotation.x = Mathf.Clamp(cameraRotation.x, minVerticalAngel, maxVerticalAngel);
 
-        this.transform.Rotate(0, mouseX, mouseY);
+            cameraRotation.y = transform.localEulerAngles.y;
+            transform.localEulerAngles = cameraRotation;
+        }
+        else
+        {
+            // combined way
+        }
     }
 }

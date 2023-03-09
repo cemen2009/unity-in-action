@@ -446,8 +446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 446a7fd7de28d6d40ba04d345653dae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensetiveY: 100
-  sensetiveX: 400
+  axes: 2
+  sensetiveHorizontal: 3
+  sensetiveVertical: 2
 --- !u!1 &1008833972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,7 +1095,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ded01bb471580ff428c5d81d1d71098e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1231,7 +1232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1963024625}
   m_Layer: 0
-  m_Name: Frame
+  m_Name: BasedRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
