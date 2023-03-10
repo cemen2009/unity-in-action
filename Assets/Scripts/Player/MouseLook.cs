@@ -20,6 +20,13 @@ public class MouseLook : MonoBehaviour
 
     private float delta;
 
+    private void Start()
+    {
+        Rigidbody body = GetComponent<Rigidbody>();
+        if (body != null)
+            body.freezeRotation = true; // gravity has no affect on body
+    }
+
     private void Update()
     {
         if (axes == RotationAxes.MouseX)
