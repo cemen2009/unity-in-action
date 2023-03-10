@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
+[AddComponentMenu("Scripts/Player Movement")]
 public class PlayerMovement : MonoBehaviour
 {
     private Vector3 movement = Vector3.zero;
@@ -11,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        movement.y = -9.8f; // gravity
         characterController = GetComponent<CharacterController>();
     }
 
