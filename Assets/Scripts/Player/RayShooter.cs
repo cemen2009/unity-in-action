@@ -1,21 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class RayShooter : MonoBehaviour
 {
-    private Camera _camera;
     private Vector3 point;
     private int size = 12;
+    [SerializeField] private float bulletForce = 10f;
+    
+    private Ray ray;
+    private GameObject hitObject;
+    private ReactiveTarget target;
+    private float posX, posY;
+    private Rect sightRect;
+    private StringBuilder sight = new StringBuilder("+");
 
     // Start is called before the first frame update
     void Start()
     {
-        _camera = GetComponent<Camera>();
-        point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight /  2, 0);   // point = center of screen
+        posX = Camera.main.pixelWidth / 2 - size / 4;
+        posY = Camera.main.pixelHeight / 2 - size / 2;
+        sightRect = new Rect(posX, posY, size, size);
+
+        point = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight /  2, 0);   // point = center of screen
 
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = true;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -23,10 +33,15 @@ public class RayShooter : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Ray ray = _camera.ScreenPointToRay(point);  // drop ray from point(center of screen)
+            ray = Camera.main.ScreenPointToRay(point);  // drop ray from point(center of screen)
             if (Physics.Raycast(ray, out RaycastHit hit))   // hit is struct of data about ray, where is hit
             {
-                StartCoroutine(SphereIndicator(hit.point));
+                hitObject = hit.transform.gameObject;
+                target = hitObject.GetComponent<ReactiveTarget>();
+                if (target != null)
+                    target.ReactToHit(ray.direction, bulletForce);
+                else
+                    StartCoroutine(SphereIndicator(hit.point));
             }
         }
     }
@@ -46,8 +61,8 @@ public class RayShooter : MonoBehaviour
 
     private void OnGUI()
     {
-        float posX = _camera.pixelWidth / 2 - size / 4;
-        float posY = _camera.pixelHeight / 2 - size / 2;
+        posX = Camera.main.pixelWidth / 2 - size / 4;
+        posY = Camera.main.pixelHeight / 2 - size / 2;
         GUI.Label(new Rect(posX, posY, size, size), "+");
     }
 }

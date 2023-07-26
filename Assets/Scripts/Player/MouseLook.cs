@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseLook : MonoBehaviour
@@ -22,9 +20,9 @@ public class MouseLook : MonoBehaviour
 
     private void Start()
     {
-        Rigidbody body = GetComponent<Rigidbody>();
-        if (body != null)
-            body.freezeRotation = true; // gravity has no affect on body
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.freezeRotation = true;
     }
 
     private void Update()
@@ -32,11 +30,15 @@ public class MouseLook : MonoBehaviour
         if (axes == RotationAxes.MouseX)
         {
             // horizontal way
-            transform.Rotate(0f, Input.GetAxis("Mouse X") * sensetiveHorizontal, 0f);
+
+            cameraRotation.y = Input.GetAxis("Mouse X") * sensetiveHorizontal;
+            transform.Rotate(0f, cameraRotation.y, 0f);
         }
         else if (axes == RotationAxes.MouseY)
         {
-            // verical way
+            // vertical way
+
+            // increment vertical angle
             cameraRotation.x -= Input.GetAxis("Mouse Y") * sensetiveVertical;
 
             // Mathf.Clamp function clamp value X in range between min and max
